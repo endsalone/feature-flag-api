@@ -1,0 +1,38 @@
+export enum ErrorType {
+  IS_NOT_STRING = 'IS_NOT_STRING',
+  IS_NOT_NUMBER = 'IS_NOT_NUMBER',
+  IS_NOT_BOOLEAN = 'IS_NOT_BOOLEAN',
+  IS_NOT_DATE = 'IS_NOT_DATE',
+  IS_NOT_EMAIL = 'IS_NOT_EMAIL',
+  IS_NOT_STATUS = 'IS_NOT_STATUS',
+  IS_NOT_TYPE = 'IS_NOT_TYPE',
+  IS_NOT_DEFINED = 'IS_NOT_DEFINED',
+  LENGTH = 'LENGTH'
+}
+
+export enum AccountErrorType {
+  ACCOUNT_ALREADY_EXISTS = 'ACCOUNT_ALREADY_EXISTS',
+  PROFESSIONAL_ACCOUNT_INCOMPLETE = 'PROFESSIONAL_ACCOUNT_INCOMPLETE',
+  ACCOUNT_DOES_NOT_EXIST = 'ACCOUNT_DOES_NOT_EXIST',
+  UNAUTHORIZED = 'UNAUTHORIZED'
+}
+
+export enum ProjectErrorType {
+  PROJECT_ALREADY_EXISTS = 'PROJECT_ALREADY_EXISTS',
+  PROJECT_DOES_NOT_EXIST = 'PROJECT_DOES_NOT_EXIST'
+}
+
+export enum FeatureErrorType {
+  FEATURE_ALREADY_EXISTS = 'FEATURE_ALREADY_EXISTS',
+  FEATURE_DOES_NOT_EXIST = 'FEATURE_DOES_NOT_EXIST'
+}
+
+export interface JsonApiError {
+  statusCode?: number;
+  code?: string;
+  title?: string;
+  detail?: string;
+  source?: {
+    pointer?: string;
+  };
+}

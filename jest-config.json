@@ -1,0 +1,27 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleDirectories": ["node_modules","src"],
+  "rootDir": "./src",
+  "testEnvironment": "node",
+  "testRegex": ".spec.ts$",
+  "setupFiles": ["<rootDir>/test/test.setup.js"],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverageFrom" : [
+    "<rootDir>/modules/**/*.{ts,js}"
+  ],
+  "coverageDirectory": "../coverage",
+  "coverageThreshold": {
+    "global": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    }
+  },
+  "allowJs": true,
+  "verbose": true,
+  "slowTestThreshold": 10,
+  "bail": 1
+}

@@ -1,0 +1,24 @@
+{
+  "editor.autoIndent": "full",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false,
+    "source.organizeImports": true,
+    "source.fixAll.prettier": true
+  },
+  "jest.testExplorer": {
+    "enabled": true,
+  },
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.automationProfile.osx": {
+    "args": ["-l"],
+    "path": "/bin/bash"
+  },
+  "testExplorer.useNativeTesting": true,
+  "prettier.configPath": ".prettierrc",
+  "jest.jestCommandLine": "yarn test",
+  "jest.autoRun": {
+    "watch": false
+  },
+}
