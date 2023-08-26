@@ -11,13 +11,13 @@ export class VariationService {
     private variationRepository: Repository<VariationEntity>
   ) {}
 
-  async createVariation(feature: Partial<VariationEntity>): Promise<VariationEntity> {
-    const hasFeature = await this.findOne({ key: feature.key });
+  async createVariation(variation: Partial<VariationEntity>): Promise<VariationEntity> {
+    const hasFeature = await this.findOne({ key: variation.key });
     if (hasFeature) {
       throw new FeatureAlreadyExistsException();
     }
 
-    return this.variationRepository.save(feature);
+    return this.variationRepository.save(variation);
   }
 
   async findOne(

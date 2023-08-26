@@ -1,6 +1,8 @@
 import { Expose } from 'class-transformer';
 import { Feature } from 'modules/feature/domain/feature';
 import { FeatureType } from 'modules/feature/domain/feature.type';
+import { Variation } from 'modules/feature/domain/variation';
+import { VariationEntity } from 'modules/feature/domain/variation.entity';
 import { ProjectEntity } from 'modules/project/domain/project.entity';
 import {
   Column,
@@ -8,6 +10,8 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -39,6 +43,14 @@ export class FeatureEntity implements Feature {
   @ManyToOne(() => ProjectEntity)
   @JoinColumn({ name: 'project_id', referencedColumnName: 'id', foreignKeyConstraintName: 'project_id_fk' })
   project: ProjectEntity;
+
+  @ManyToMany(() => VariationEntity)
+  @JoinTable({
+    name: 'feature_variation',
+    joinColumn: { name: 'feature_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'variation_id', referencedColumnName: 'id' }
+  })
+  variations: Variation[];
 
   @Expose()
   @CreateDateColumn({

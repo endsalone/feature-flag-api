@@ -17,7 +17,7 @@ export class ProjectService {
   async createProject(project: ProjectEntity, accountId: number): Promise<ProjectEntity> {
     const slug = slugify(project.name);
 
-    const hasProject = await this.findOne({ slug, permissions: { id: accountId } });
+    const hasProject = await this.findOneBySlugAndAccount(`'${slug}'`, accountId);
     if (hasProject) {
       throw new ProjectAlreadyExistsException();
     }

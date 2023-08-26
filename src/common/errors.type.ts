@@ -27,6 +27,12 @@ export enum FeatureErrorType {
   FEATURE_DOES_NOT_EXIST = 'FEATURE_DOES_NOT_EXIST'
 }
 
+export enum VariationErrorType {
+  VARIATION_ALREADY_EXISTS = 'VARIATION_ALREADY_EXISTS',
+  VARIATION_TYPE_INVALID = 'VARIATION_TYPE_INVALID',
+  VARIATION_DOES_NOT_EXIST = 'VARIATION_DOES_NOT_EXIST'
+}
+
 export interface JsonApiError {
   statusCode?: number;
   code?: string;

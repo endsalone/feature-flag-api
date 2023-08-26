@@ -1,7 +1,7 @@
-import { ArgumentMetadata, PipeTransform, UnprocessableEntityException } from "@nestjs/common";
-import { plainToInstance } from "class-transformer";
-import { validate, ValidationError } from "class-validator";
-import { JsonApiError } from "common/errors.type";
+import { ArgumentMetadata, PipeTransform, UnprocessableEntityException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
+import { ValidationError, validate } from 'class-validator';
+import { JsonApiError } from 'common/errors.type';
 
 export class ValidationPipe implements PipeTransform {
   async transform(value: any, { metatype }: ArgumentMetadata) {
@@ -21,7 +21,7 @@ export class ValidationPipe implements PipeTransform {
   extractErrors(errors: ValidationError[]): JsonApiError[] {
     return errors.map((error) => ({
       code: Object.values(error.constraints)[0],
-      source: { pointer: error.property },
+      source: { pointer: error.property }
     }));
   }
 }
