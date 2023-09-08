@@ -3,7 +3,6 @@ import { VariationType } from 'modules/feature/domain/variation.type';
 
 export interface Variation {
   id: number;
-  name: string;
   description: string;
   key: string;
   type: VariationType;

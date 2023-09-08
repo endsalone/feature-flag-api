@@ -1,8 +1,11 @@
 import { Expose } from 'class-transformer';
 import { IsEnum } from 'class-validator';
 import { VariationType } from 'modules/feature/domain/variation.type';
+import { CreateVariationValueResponse } from 'modules/feature/dtos/create-variation-value.response';
 
-export class CreateVariationRequest {
+export class UpdateVariationRequest {
+  @Expose()
+  name: string;
   @Expose()
   description: string;
   @Expose()
@@ -10,4 +13,6 @@ export class CreateVariationRequest {
   @Expose()
   @IsEnum(VariationType)
   type: VariationType;
+  @Expose()
+  values: CreateVariationValueResponse[];
 }

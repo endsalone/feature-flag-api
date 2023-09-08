@@ -2,7 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FeatureAlreadyExistsException } from 'modules/feature/domain/exception/feature-exists';
 import { FeatureEntity } from 'modules/feature/domain/feature.entity';
-import { FindOptionsSelect, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  FindOptionsRelationByString,
+  FindOptionsRelations,
+  FindOptionsSelect,
+  FindOptionsSelectByString,
+  FindOptionsWhere,
+  Repository
+} from 'typeorm';
 
 @Injectable()
 export class FeatureService {
@@ -26,9 +33,10 @@ export class FeatureService {
 
   async findOne(
     where: FindOptionsWhere<Partial<FeatureEntity>>,
-    fields?: FindOptionsSelect<FeatureEntity>
+    select?: FindOptionsSelect<FeatureEntity> | FindOptionsSelectByString<FeatureEntity>,
+    relations?: FindOptionsRelations<FeatureEntity> | FindOptionsRelationByString
   ): Promise<FeatureEntity> {
-    return this.featureRepository.findOne({ where, ...(fields ? { select: fields } : {}) });
+    return this.featureRepository.findOne({ where, ...(select ? { select } : {}), relations });
   }
 
   async findByEmail(email: string, fieldsToIncludeInReturn?: string[]): Promise<FeatureEntity> {
@@ -57,7 +65,11 @@ export class FeatureService {
     return this.findOne({ id });
   }
 
-  async find(where: FindOptionsWhere<Partial<FeatureEntity>>): Promise<FeatureEntity[]> {
-    return this.featureRepository.find({ where });
+  async find(
+    where: FindOptionsWhere<Partial<FeatureEntity>>,
+    relations?: FindOptionsRelations<FeatureEntity> | FindOptionsRelationByString,
+    select?: FindOptionsSelect<FeatureEntity> | FindOptionsSelectByString<FeatureEntity>
+  ): Promise<FeatureEntity[]> {
+    return this.featureRepository.find({ where, relations, select });
   }
 }

@@ -11,11 +11,12 @@ import { VariationService } from 'modules/feature/domain/variation.service';
 import { CreateFeature } from 'modules/feature/use-cases/create-feature';
 import { CreateVariation } from 'modules/feature/use-cases/create-variation';
 import { GetFeature } from 'modules/feature/use-cases/get-feature';
+import { GetVariation } from 'modules/feature/use-cases/get-variation';
 import { ListFeature } from 'modules/feature/use-cases/list-feature';
 
 const services = [FeatureService, VariationService, VariationValueService];
 const featureUseCases = [CreateFeature, ListFeature, GetFeature];
-const variationUseCases = [CreateVariation];
+const variationUseCases = [CreateVariation, GetVariation];
 const controllers = [FeaturesController, VariationsController];
 const entities = [FeatureEntity, VariationEntity, VariationValueEntity];
 

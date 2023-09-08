@@ -11,11 +11,12 @@ import { VariationEntity } from 'modules/feature/domain/variation.entity';
 import { VariationService } from 'modules/feature/domain/variation.service';
 import { CreateFeatureRequest } from 'modules/feature/dtos/create-feature.request';
 import { CreateFeatureResponse } from 'modules/feature/dtos/create-feature.response';
-import { CreateVariationValueResponse } from 'modules/feature/dtos/create-variation-value.response';
 import { CreateVariationResponse } from 'modules/feature/dtos/create-variation.response';
 import { ProjectDoesNotExistException } from 'modules/project/domain/exception/project-not-exists';
 import { ProjectEntity } from 'modules/project/domain/project.entity';
 import { ProjectService } from 'modules/project/domain/project.service';
+import { VariationAlreadyExistsException } from '../domain/exception/variation-exists';
+import { CreateVariationValueResponse } from '../dtos/create-variation-value.response';
 
 @Injectable()
 export class CreateFeature {
@@ -37,28 +38,25 @@ export class CreateFeature {
       throw new FeatureAlreadyExistsException();
     }
 
-    const variationValuesPartial = this.buildVariationValues(feature);
-    const createdVariationValues = await this.variationValueService.createVariationValue(variationValuesPartial);
+    const hasVariation = await this.variationService.findOne({ key: feature.variation.key });
+    if (hasVariation) {
+      throw new VariationAlreadyExistsException();
+    }
 
-    const variationToCreate = this.buildVariation(
-      feature.variation,
-      createdVariationValues as VariationValueEntity[],
-      project
-    );
-    const createdVariation = await this.variationService.createVariation(variationToCreate);
+    const createdVariation = await this.variationService.createVariation(feature.variation);
 
     const featureToCreate: Partial<FeatureEntity> = { ...feature, project, variations: [createdVariation] };
     const createdFeature = await this.featureService.createFeature(featureToCreate);
 
     const castedFeature: CreateFeatureResponse = castWithObfuscation(CreateFeatureResponse, createdFeature);
     const castedVariation: CreateVariationResponse = castWithObfuscation(CreateVariationResponse, createdVariation);
-    const castedVariationValues: CreateVariationValueResponse[] = (
-      createdVariationValues as VariationValueEntity[]
-    ).map((variationValue) => castWithObfuscation(CreateVariationValueResponse, variationValue));
+    const castedVariationValue: CreateVariationValueResponse[] = createdVariation.values.map((value) =>
+      castWithObfuscation(CreateVariationValueResponse, value)
+    );
 
     return {
       ...castedFeature,
-      variations: [{ ...castedVariation, values: castedVariationValues }]
+      variations: [{ ...castedVariation, values: castedVariationValue }]
     };
   }
 
@@ -68,16 +66,5 @@ export class CreateFeature {
     project: ProjectEntity
   ): Partial<VariationEntity> {
     return { ...variation, values: variationValues, project };
-  }
-
-  private buildVariationValues(feature: CreateFeatureRequest): Partial<VariationValueEntity>[] {
-    switch (feature.variation.type) {
-      case 'boolean':
-        return [{ value: true }, { value: false }];
-      case 'string':
-        return [{ value: 'stringA' }, { value: 'stringB' }];
-      case 'number':
-        return [{ value: 1 }, { value: 2 }];
-    }
   }
 }

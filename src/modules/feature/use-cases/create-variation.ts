@@ -1,42 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { castWithObfuscation } from 'common/casting';
 import { UserOption } from 'common/user-type';
-import { VariationAlreadyExistsException } from 'modules/feature/domain/exception/variation-exists';
-import { VariationTypeInvalidException } from 'modules/feature/domain/exception/variation-type-invalid';
-import { VariationEntity } from 'modules/feature/domain/variation.entity';
+import { VariationValueService } from 'modules/feature/domain/variation-value.service';
 import { VariationService } from 'modules/feature/domain/variation.service';
-import { VariationType } from 'modules/feature/domain/variation.type';
-import { CreateFeatureResponse } from 'modules/feature/dtos/create-feature.response';
 import { CreateVariationRequest } from 'modules/feature/dtos/create-variation.request';
 import { ProjectDoesNotExistException } from 'modules/project/domain/exception/project-not-exists';
 import { ProjectService } from 'modules/project/domain/project.service';
+import { VariationEntity } from '../domain/variation.entity';
+import { CreateVariationValueResponse } from '../dtos/create-variation-value.response';
+import { CreateVariationResponse } from '../dtos/create-variation.response';
 
 @Injectable()
 export class CreateVariation {
-  constructor(private variationService: VariationService, private projectService: ProjectService) {}
+  constructor(
+    private variationService: VariationService,
+    private projectService: ProjectService,
+    private variationValueService: VariationValueService
+  ) {}
 
-  async execute(slug: string, feature: CreateVariationRequest, account: UserOption): Promise<unknown> {
-    const projectList = await this.projectService.findBySlugsAndAccount(`'${slug}'`, account.id);
-    if (!projectList.length) {
+  async execute(slug: string, variation: CreateVariationRequest, account: UserOption): Promise<any> {
+    const project = await this.projectService.findOneBySlugAndAccount(`'${slug}'`, account.id);
+    if (!project) {
       throw new ProjectDoesNotExistException();
     }
 
-    const hasVariation = await this.variationService.findOne({ key: feature.key });
-    if (hasVariation) {
-      throw new VariationAlreadyExistsException();
-    }
-
-    const isValidVariationType = Object.values(VariationType).includes(feature.type);
-    if (!isValidVariationType) {
-      throw new VariationTypeInvalidException();
-    }
-
-    const variationToCreate: Partial<VariationEntity> = {
-      ...feature,
-      project: projectList[0]
-    };
+    const variationToCreate: Partial<VariationEntity> = { ...variation, project };
     const createdVariation = await this.variationService.createVariation(variationToCreate);
 
-    return castWithObfuscation(CreateFeatureResponse, createdVariation);
+    const castedVariation: CreateVariationResponse = castWithObfuscation(CreateVariationResponse, createdVariation);
+    const castedVariationValue: CreateVariationValueResponse[] = createdVariation.values.map((value) =>
+      castWithObfuscation(CreateVariationValueResponse, value)
+    );
+
+    return {
+      ...castedVariation,
+      values: castedVariationValue
+    };
   }
 }

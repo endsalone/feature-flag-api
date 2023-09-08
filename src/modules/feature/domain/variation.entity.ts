@@ -28,10 +28,6 @@ export class VariationEntity implements Variation {
   key: string;
 
   @Expose()
-  @Column({ type: 'character varying', length: 120, nullable: true })
-  name: string;
-
-  @Expose()
   @Column({ type: 'character varying', length: 220, nullable: true })
   description: string;
 

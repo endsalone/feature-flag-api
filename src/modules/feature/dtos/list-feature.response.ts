@@ -4,8 +4,6 @@ import { FeatureStatus, FeatureType } from 'modules/feature/domain/feature.type'
 
 export class ListFeatureResponse implements Partial<FeatureEntity> {
   @Expose()
-  name: string;
-  @Expose()
   description: string;
   @Expose()
   key: string;
