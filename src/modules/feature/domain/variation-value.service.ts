@@ -11,9 +11,9 @@ export class VariationValueService {
   ) {}
 
   async createVariationValue(
-    feature: Partial<VariationValueEntity> | Partial<VariationValueEntity>[]
+    variation: Partial<VariationValueEntity> | Partial<VariationValueEntity>[]
   ): Promise<VariationValueEntity | VariationValueEntity[]> {
-    return this.variationValueRepository.save(feature as VariationValueEntity[]);
+    return this.variationValueRepository.save(variation as VariationValueEntity[]);
   }
 
   async findOne(

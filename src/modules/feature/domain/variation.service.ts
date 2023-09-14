@@ -62,7 +62,7 @@ export class VariationService {
         const existingValue = existingVariation.values.find((v) => v.id === value.id);
         if (existingValue) {
           existingValue.value = value.value;
-          // await this.variationValueService.update(existingValue);
+          await this.variationValueService.update(existingValue);
         }
       } else {
         // Create new value and add to variation values
