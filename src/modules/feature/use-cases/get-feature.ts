@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { castWithObfuscation } from 'common/casting';
 import { UserOption } from 'common/user-type';
-import { FeatureDoesNotExistException } from 'modules/feature/domain/exception/feature-does-not-exists';
+import { FeatureDoesNotExistException } from 'modules/feature/domain/exception/feature-does-not-exist';
 import { FeatureService } from 'modules/feature/domain/feature.service';
 import { FeatureWithVariations } from 'modules/feature/domain/feature.type';
 import { CreateFeatureResponse } from 'modules/feature/dtos/create-feature.response';
-import { CreateVariationValueResponse } from 'modules/feature/dtos/create-variation-value.response';
 import { CreateVariationResponse } from 'modules/feature/dtos/create-variation.response';
+import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
 import { ProjectService } from 'modules/project/domain/project.service';
 import { FeatureEntity } from '../domain/feature.entity';
 
@@ -35,7 +35,7 @@ export class GetFeature {
     const castedFeature = castWithObfuscation(CreateFeatureResponse, feature);
     const castedVariations = feature.variations.map((variation) => ({
       ...castWithObfuscation(CreateVariationResponse, variation),
-      values: variation.values.map((value) => castWithObfuscation(CreateVariationValueResponse, value))
+      values: variation.values.map((value) => castWithObfuscation(VariationValueResponse, value))
     }));
     return { ...castedFeature, variations: castedVariations };
   }

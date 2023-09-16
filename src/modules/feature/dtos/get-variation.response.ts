@@ -1,9 +1,9 @@
 import { Expose } from 'class-transformer';
-import { IsEnum } from 'class-validator';
+import { VariationEntity } from 'modules/feature/domain/variation.entity';
 import { VariationType } from 'modules/feature/domain/variation.type';
 import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
 
-export class UpdateVariationRequest {
+export class GetVariationResponse implements Partial<VariationEntity> {
   @Expose()
   name: string;
   @Expose()
@@ -11,7 +11,6 @@ export class UpdateVariationRequest {
   @Expose()
   key: string;
   @Expose()
-  @IsEnum(VariationType)
   type: VariationType;
   @Expose()
   values: VariationValueResponse[];
