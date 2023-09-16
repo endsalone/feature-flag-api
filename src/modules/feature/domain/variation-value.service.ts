@@ -33,4 +33,8 @@ export class VariationValueService {
   async update(variationValue: VariationValueEntity): Promise<VariationValueEntity> {
     return this.variationValueRepository.save(variationValue);
   }
+
+  async delete(id: typeof VariationValueEntity.prototype.id): Promise<void> {
+    await this.variationValueRepository.delete(id);
+  }
 }

@@ -15,6 +15,10 @@ export class VariationService {
     private variationValueService: VariationValueService
   ) {}
 
+  async save(variation: VariationEntity): Promise<VariationEntity> {
+    return this.variationRepository.save(variation);
+  }
+
   async createVariation(variation: Partial<VariationEntity>): Promise<VariationEntity> {
     const existingVariation = await this.findOne({ key: variation.key });
     if (existingVariation) {

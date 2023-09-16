@@ -41,6 +41,6 @@ export class VariationsController {
     @Body() variation: UpdateVariationRequest,
     @Request() options: RequestOptions
   ): Promise<unknown> {
-    return this.updateVariation.execute(variation, options.user);
+    return this.updateVariation.execute(variation, slug, options.user);
   }
 }
