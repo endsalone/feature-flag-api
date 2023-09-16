@@ -16,7 +16,7 @@ import { ProjectDoesNotExistException } from 'modules/project/domain/exception/p
 import { ProjectEntity } from 'modules/project/domain/project.entity';
 import { ProjectService } from 'modules/project/domain/project.service';
 import { VariationAlreadyExistsException } from '../domain/exception/variation-exists';
-import { CreateVariationValueResponse } from '../dtos/create-variation-value.response';
+import { VariationValueResponse } from '../dtos/variation-value.response';
 
 @Injectable()
 export class CreateFeature {
@@ -43,15 +43,18 @@ export class CreateFeature {
       throw new VariationAlreadyExistsException();
     }
 
-    const createdVariation = await this.variationService.createVariation(feature.variation);
+    const createdVariation = await this.variationService.createVariation({
+      ...feature.variation,
+      project
+    });
 
     const featureToCreate: Partial<FeatureEntity> = { ...feature, project, variations: [createdVariation] };
     const createdFeature = await this.featureService.createFeature(featureToCreate);
 
     const castedFeature: CreateFeatureResponse = castWithObfuscation(CreateFeatureResponse, createdFeature);
     const castedVariation: CreateVariationResponse = castWithObfuscation(CreateVariationResponse, createdVariation);
-    const castedVariationValue: CreateVariationValueResponse[] = createdVariation.values.map((value) =>
-      castWithObfuscation(CreateVariationValueResponse, value)
+    const castedVariationValue: VariationValueResponse[] = createdVariation.values.map((value) =>
+      castWithObfuscation(VariationValueResponse, value)
     );
 
     return {

@@ -7,8 +7,8 @@ import { CreateVariationRequest } from 'modules/feature/dtos/create-variation.re
 import { ProjectDoesNotExistException } from 'modules/project/domain/exception/project-not-exists';
 import { ProjectService } from 'modules/project/domain/project.service';
 import { VariationEntity } from '../domain/variation.entity';
-import { CreateVariationValueResponse } from '../dtos/create-variation-value.response';
 import { CreateVariationResponse } from '../dtos/create-variation.response';
+import { VariationValueResponse } from '../dtos/variation-value.response';
 
 @Injectable()
 export class CreateVariation {
@@ -28,8 +28,8 @@ export class CreateVariation {
     const createdVariation = await this.variationService.createVariation(variationToCreate);
 
     const castedVariation: CreateVariationResponse = castWithObfuscation(CreateVariationResponse, createdVariation);
-    const castedVariationValue: CreateVariationValueResponse[] = createdVariation.values.map((value) =>
-      castWithObfuscation(CreateVariationValueResponse, value)
+    const castedVariationValue: VariationValueResponse[] = createdVariation.values.map((value) =>
+      castWithObfuscation(VariationValueResponse, value)
     );
 
     return {
