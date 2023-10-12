@@ -72,8 +72,15 @@ I decided to use the clean architecture to organize the folders, so I have the f
 - [ ] Use OAuth2 to authenticate the users instead local authentication
 
 ## How to run
+You can run using docker instead of local, so you need to have docker and docker-compose installed in your machine.
 ```bash
   docker-compose up -d
+```
+
+Or you can run locally, so you need to have nodejs and postgres installed in your machine. Please remember that in this case you need to set the database connection in the file `infra/database.ts` and create the database in your postgres. And your postman envs need to be set to `localhost:PORT`.
+```bash
+  npm install
+  npm run start:dev
 ```
 
 ## How to check for logs
@@ -87,3 +94,4 @@ I decided to use the clean architecture to organize the folders, so I have the f
 ```
 
 All NESTJS logs and TypeORM logs are enabled, so you can see the logs in the terminal.
+It was on purpose that the .vscode folder was commited, so you can debug the application using the vscode debugger.
