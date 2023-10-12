@@ -2,19 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { castWithObfuscation } from 'common/casting';
 import { UserOption } from 'common/user-type';
 import { FeatureDoesNotExistException } from 'modules/feature/domain/exception/feature-does-not-exist';
+import { FeatureEntity } from 'modules/feature/domain/feature.entity';
 import { FeatureService } from 'modules/feature/domain/feature.service';
 import { FeatureWithVariations } from 'modules/feature/domain/feature.type';
 import { CreateFeatureResponse } from 'modules/feature/dtos/create-feature.response';
 import { CreateVariationResponse } from 'modules/feature/dtos/create-variation.response';
 import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
 import { ProjectService } from 'modules/project/domain/project.service';
-import { FeatureEntity } from '../domain/feature.entity';
 
 @Injectable()
 export class GetFeature {
   constructor(private projectService: ProjectService, private featureService: FeatureService) {}
 
-  async execute(projectSlug: string, featureKey: string, account: UserOption): Promise<unknown> {
+  async execute(projectSlug: string, featureKey: string, account: UserOption): Promise<FeatureWithVariations> {
     const project = await this.projectService.findOneBySlugAndAccount(`'${projectSlug}'`, account.id);
     if (!project) {
       throw new Error('Project not found');

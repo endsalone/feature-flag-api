@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { castWithObfuscation, castWithoutObfuscation } from 'common/casting';
 import { UserOption } from 'common/user-type';
 import { VariationDoesNotExistException } from 'modules/feature/domain/exception/variation-does-not-exist';
+import { VariationIdFromAnother } from 'modules/feature/domain/exception/variation-id-from-another';
 import { VariationValueEntity } from 'modules/feature/domain/variation-value.entity';
 import { VariationValueService } from 'modules/feature/domain/variation-value.service';
 import { VariationEntity } from 'modules/feature/domain/variation.entity';
 import { VariationService } from 'modules/feature/domain/variation.service';
+import { GetVariationResponse } from 'modules/feature/dtos/get-variation.response';
 import { UpdateVariationRequest } from 'modules/feature/dtos/update-variation.request';
+import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
 import { ProjectDoesNotExistException } from 'modules/project/domain/exception/project-not-exists';
 import { ProjectService } from 'modules/project/domain/project.service';
-import { VariationIdFromAnother } from '../domain/exception/variation-id-from-another';
-import { GetVariationResponse } from '../dtos/get-variation.response';
-import { VariationValueResponse } from '../dtos/variation-value.response';
 
 @Injectable()
 export class UpdateVariation {

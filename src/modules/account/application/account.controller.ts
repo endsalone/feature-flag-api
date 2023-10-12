@@ -6,7 +6,7 @@ import { AccountCreateRequest } from 'modules/account/dtos/account-create.reques
 import { AccountUpdateRequest } from 'modules/account/dtos/account-update.request';
 import { CreateAccount } from 'modules/account/use-cases/create-account';
 import { GetProfileInfo } from 'modules/account/use-cases/get-profile-info';
-import { UpdateAccount } from '../use-cases/update-account';
+import { UpdateAccount } from 'modules/account/use-cases/update-account';
 
 @Controller('accounts')
 export class AccountController {
