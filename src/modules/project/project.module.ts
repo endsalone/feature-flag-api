@@ -8,19 +8,10 @@ import { CreateProject } from 'modules/project/use-cases/create-project';
 import { DeleteProject } from 'modules/project/use-cases/delete-project';
 import { GetProject } from 'modules/project/use-cases/get-project';
 import { ListProject } from 'modules/project/use-cases/list-project';
-import { ListProjectFeature } from 'modules/project/use-cases/list-project-feature';
 import { UpdateProject } from 'modules/project/use-cases/update-project';
 
 const entities = [AccountEntity, ProjectEntity];
-const services = [
-  ProjectService,
-  CreateProject,
-  UpdateProject,
-  DeleteProject,
-  ListProject,
-  GetProject,
-  ListProjectFeature
-];
+const services = [ProjectService, CreateProject, UpdateProject, DeleteProject, ListProject, GetProject];
 const controllers = [ProjectsController];
 
 @Global()

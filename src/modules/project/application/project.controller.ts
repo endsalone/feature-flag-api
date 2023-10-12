@@ -6,7 +6,6 @@ import { CreateProject } from 'modules/project/use-cases/create-project';
 import { DeleteProject } from 'modules/project/use-cases/delete-project';
 import { GetProject } from 'modules/project/use-cases/get-project';
 import { ListProject } from 'modules/project/use-cases/list-project';
-import { ListProjectFeature } from 'modules/project/use-cases/list-project-feature';
 import { UpdateProject } from 'modules/project/use-cases/update-project';
 
 @Controller('projects')
@@ -16,7 +15,6 @@ export class ProjectsController {
     private updateProjectUseCase: UpdateProject,
     private deleteProjectUseCase: DeleteProject,
     private listProjectUseCase: ListProject,
-    private listProjectFeature: ListProjectFeature,
     private getProjectUseCase: GetProject
   ) {}
 
