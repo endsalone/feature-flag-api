@@ -10,7 +10,7 @@ import { ProjectService } from 'modules/project/domain/project.service';
 export class ListFeature {
   constructor(private projectService: ProjectService, private featureService: FeatureService) {}
 
-  async execute(projectSlug: string, account: UserOption): Promise<unknown> {
+  async execute(projectSlug: string, account: UserOption): Promise<ListFeatureResponse> {
     const project = await this.projectService.findOneBySlugAndAccount(`'${projectSlug}'`, account.id);
     if (!project) {
       throw new ProjectDoesNotExistException();

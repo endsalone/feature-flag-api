@@ -1,6 +1,9 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Request } from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
+import { Variation } from 'modules/feature/domain/variation';
 import { CreateVariationRequest } from 'modules/feature/dtos/create-variation.request';
+import { CreateVariationResponse } from 'modules/feature/dtos/create-variation.response';
+import { GetVariationResponse } from 'modules/feature/dtos/get-variation.response';
 import { UpdateVariationRequest } from 'modules/feature/dtos/update-variation.request';
 import { CreateVariation } from 'modules/feature/use-cases/create-variation';
 import { GetVariation } from 'modules/feature/use-cases/get-variation';
@@ -18,7 +21,7 @@ export class VariationsController {
 
   @Get('/:slug/variations')
   @HttpCode(HttpStatus.OK)
-  async list(@Param('slug') slug: string, @Request() options: RequestOptions): Promise<unknown> {
+  async list(@Param('slug') slug: string, @Request() options: RequestOptions): Promise<Partial<Variation[]>> {
     return this.listVariation.execute(slug, options.user);
   }
 
@@ -28,7 +31,7 @@ export class VariationsController {
     @Param('slug') slug: string,
     @Body() variation: CreateVariationRequest,
     @Request() options: RequestOptions
-  ): Promise<unknown> {
+  ): Promise<CreateVariationResponse> {
     return this.createVariation.execute(slug, variation, options.user);
   }
 
@@ -38,7 +41,7 @@ export class VariationsController {
     @Param('slug') slug: string,
     @Param('key') key: string,
     @Request() options: RequestOptions
-  ): Promise<unknown> {
+  ): Promise<Partial<Variation>> {
     return this.getVariation.execute(slug, key, options.user);
   }
 
@@ -48,7 +51,7 @@ export class VariationsController {
     @Param('slug') slug: string,
     @Body() variation: UpdateVariationRequest,
     @Request() options: RequestOptions
-  ): Promise<unknown> {
+  ): Promise<GetVariationResponse> {
     return this.updateVariation.execute(variation, slug, options.user);
   }
 }

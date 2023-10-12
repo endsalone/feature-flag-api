@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
 import { CreateOrganizationRequest } from 'modules/organization/dtos/create-organization.request';
+import { CreateOrganizationResponse } from 'modules/organization/dtos/create-organization.response';
 import { CreateOrganization } from 'modules/organization/use-cases/create-organization';
 import { GetOrganization } from 'modules/organization/use-cases/get-organization';
 import { ListOrganization } from 'modules/organization/use-cases/list-organization';
@@ -33,17 +34,20 @@ export class OrganizationController {
   async createOrganization(
     @Request() options: RequestOptions,
     @Body() body: CreateOrganizationRequest
-  ): Promise<unknown> {
+  ): Promise<CreateOrganizationResponse> {
     return this.createOrganizationUseCase.execute(body, options.user);
   }
 
   @Get('/')
-  async listOrganizations(@Request() options: RequestOptions): Promise<unknown> {
+  async listOrganizations(@Request() options: RequestOptions): Promise<CreateOrganizationResponse[]> {
     return this.listOrganizationUseCase.execute(options.user);
   }
 
   @Get('/:organizationHash')
-  async getOrganization(@Param('organizationHash') hash: string, @Request() options: RequestOptions): Promise<unknown> {
+  async getOrganization(
+    @Param('organizationHash') hash: string,
+    @Request() options: RequestOptions
+  ): Promise<CreateOrganizationResponse> {
     return this.getOrganizationUseCase.execute(hash, options.user);
   }
 
@@ -52,7 +56,7 @@ export class OrganizationController {
     @Param('organizationHash') hash: string,
     @Request() options: RequestOptions,
     @Body() body: CreateOrganizationRequest
-  ): Promise<unknown> {
+  ): Promise<CreateOrganizationResponse> {
     return this.updateOrganizationUseCase.execute(hash, body, options.user);
   }
 }

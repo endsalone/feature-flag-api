@@ -9,7 +9,7 @@ import { CreateOrganizationResponse } from 'modules/organization/dtos/create-org
 export class GetOrganization {
   constructor(private organizationService: OrganizationService) {}
 
-  async execute(hash: string, options: UserOption): Promise<unknown> {
+  async execute(hash: string, options: UserOption): Promise<CreateOrganizationResponse> {
     const organization = await this.organizationService.findOneByHashAndAccount(hash, options.id);
     if (!organization) {
       throw new OrganizationDoesNotExistException();

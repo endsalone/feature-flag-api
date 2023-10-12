@@ -8,7 +8,7 @@ import { ListProjectResponse } from 'modules/project/dtos/list-project.response'
 export class ListProject {
   constructor(private projectService: ProjectService) {}
 
-  async execute(options: UserOption): Promise<unknown> {
+  async execute(options: UserOption): Promise<ListProjectResponse> {
     const projects = await this.projectService.findByAccountId(options.id);
 
     return castWithObfuscation(ListProjectResponse, projects);

@@ -11,7 +11,11 @@ import { CreateOrganizationResponse } from 'modules/organization/dtos/create-org
 export class UpdateOrganization {
   constructor(private organizationService: OrganizationService) {}
 
-  async execute(hash: string, body: CreateOrganizationRequest, options?: UserOption): Promise<unknown> {
+  async execute(
+    hash: string,
+    body: CreateOrganizationRequest,
+    options?: UserOption
+  ): Promise<CreateOrganizationResponse> {
     const hasOrganizationWithHash = await this.organizationService.findOneByHashAndAccount(hash, options.id);
     if (!hasOrganizationWithHash) {
       throw new OrganizationInternalServerErrorException();
