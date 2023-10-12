@@ -63,22 +63,18 @@ export class VariationService {
       throw new Error('Variation not found.');
     }
 
-    // Update variation fields
     existingVariation.key = variationUpdate.key ?? existingVariation.key;
     existingVariation.description = variationUpdate.description ?? existingVariation.description;
     existingVariation.type = variationUpdate.type ?? existingVariation.type;
 
-    // Handle the update or creation of variation values
     for (const value of variationUpdate.values || []) {
       if (value.id) {
-        // Update existing value
         const existingValue = existingVariation.values.find((v) => v.id === value.id);
         if (existingValue) {
           existingValue.value = value.value;
           await this.variationValueService.update(existingValue);
         }
       } else {
-        // Create new value and add to variation values
         const newValue = await this.variationValueService.createVariationValue(value);
         existingVariation.values.push(newValue as VariationValueEntity);
       }

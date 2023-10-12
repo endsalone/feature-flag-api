@@ -24,7 +24,3 @@ export class ListFeature {
     return castWithObfuscation(ListFeatureResponse, listFeatureFromProject);
   }
 }
-
-// Your Santa Fe ID number (SF ID) is: 0101-6322
-// SF ID: 0101-6322
-// Jocker#10
