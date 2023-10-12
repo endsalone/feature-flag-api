@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "38dd2d0d-0fab-4a83-ab72-e8f0f03977dd",
+		"name": "projects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "189394"
+	},
+	"item": [
+		{
+			"name": "create-project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Pam Pam Pam Pam\",\n    \"description\": \"Project of my life\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/projects",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Pam Pam\",\n    \"description\": \"This is my favorite project\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/projects/:slug",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						":slug"
+					],
+					"variable": [
+						{
+							"key": "slug",
+							"value": "pam-pam"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/projects/:slug",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						":slug"
+					],
+					"variable": [
+						{
+							"key": "slug",
+							"value": "pam-pam-pam"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list-project",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/projects",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get slug",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/projects/:slug",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						":slug"
+					],
+					"variable": [
+						{
+							"key": "slug",
+							"value": "pam-pam"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

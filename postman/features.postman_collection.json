@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "1ba93e8e-cfa2-4cce-a0e4-d8593557d358",
+		"name": "features",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "189394"
+	},
+	"item": [
+		{
+			"name": "create-feature",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Pam first flag\",\n  \"description\": \"pam\",\n  \"key\": \"pam-pam-1\",\n  \"type\": \"release\",\n  \"variation\": {\n      \"key\": \"pam-pam-1\",\n      \"type\": \"boolean\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/projects/:slug/features",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						":slug",
+						"features"
+					],
+					"variable": [
+						{
+							"key": "slug",
+							"value": "pam-pam"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list-feature",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/projects/:slug/features",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						":slug",
+						"features"
+					],
+					"variable": [
+						{
+							"key": "slug",
+							"value": "pam-pam"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-feature",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/projects/:slug/features/:key",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						":slug",
+						"features",
+						":key"
+					],
+					"variable": [
+						{
+							"key": "slug",
+							"value": "pam-pam"
+						},
+						{
+							"key": "key",
+							"value": "pam-pam-1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

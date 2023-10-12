@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "04b775f9-d05a-401a-87d9-2814174d4e15",
+		"name": "organizations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "189394"
+	},
+	"item": [
+		{
+			"name": "create-organization",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Dot Sky 2\",\n    \"key\": \"dot-sky-2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/organizations",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"organizations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-organization",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Dot Sky\",\n    \"key\": \"dot-sky\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/organizations/:hash",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"organizations",
+						":hash"
+					],
+					"variable": [
+						{
+							"key": "hash",
+							"value": "dot-sky-5spnac9rq"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list-organization",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/organizations",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"organizations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-organization",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/organizations/dot-sky-5spnac9rq",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"organizations",
+						"dot-sky-5spnac9rq"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
