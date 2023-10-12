@@ -1,5 +1,5 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
-import { plainToInstance } from "class-transformer";
+import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class QueryTransformPipe<T> implements PipeTransform {

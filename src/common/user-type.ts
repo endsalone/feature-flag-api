@@ -9,6 +9,12 @@ export type UserOption = {
   active: boolean;
 };
 
+export type OrganizationOption = {
+  id: number;
+  name: string;
+};
+
 export type RequestOptions = {
   user: UserOption;
+  organization: OrganizationOption;
 } & Request;

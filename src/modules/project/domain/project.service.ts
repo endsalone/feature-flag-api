@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { slugify } from 'common/string-manipulation';
@@ -68,9 +69,9 @@ export class ProjectService {
         "projects"."slug" AS "slug",
         "projects"."description" AS "description"
       FROM "projects"
-        INNER JOIN "permissions" ON
-          "permissions"."project_id"="projects"."id" AND
-          "permissions".account_id=${accountId}
+        INNER JOIN "permissions_projects" ON
+          "permissions_projects"."project_id"="projects"."id" AND
+          "permissions_projects".account_id=${accountId}
         WHERE
           "projects"."slug" IN (${slug}) AND
           "projects"."deleted_at" IS NULL;
@@ -85,9 +86,9 @@ export class ProjectService {
         "projects"."slug" AS "slug",
         "projects"."description" AS "description"
       FROM "projects"
-        INNER JOIN "permissions" ON
-          "permissions"."project_id"="projects"."id" AND
-          "permissions".account_id=${accountId}
+        INNER JOIN "permissions_projects" ON
+          "permissions_projects"."project_id"="projects"."id" AND
+          "permissions_projects".account_id=${accountId}
         WHERE
           "projects"."slug" = ${slug} AND
           "projects"."deleted_at" IS NULL
@@ -109,9 +110,9 @@ export class ProjectService {
         "projects"."slug" AS "slug",
         "projects"."description" AS "description"
       FROM "projects"
-        INNER JOIN "permissions" ON
-          "permissions"."project_id"="projects"."id" AND
-          "permissions".account_id=${accountId} AND
+        INNER JOIN "permissions_projects" ON
+          "permissions_projects"."project_id"="projects"."id" AND
+          "permissions_projects".account_id=${accountId} AND
           "projects"."deleted_at" IS NULL;
     `);
   }

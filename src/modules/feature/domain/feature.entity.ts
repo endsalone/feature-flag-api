@@ -32,7 +32,7 @@ export class FeatureEntity implements Feature {
   name: string;
 
   @Expose()
-  @Column({ type: 'character varying', length: 120, nullable: false })
+  @Column({ type: 'character varying', length: 120, nullable: true })
   description: string;
 
   @Expose()

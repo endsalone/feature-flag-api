@@ -44,6 +44,15 @@ export class VariationService {
       .getOne();
   }
 
+  async findMany(where: FindOptionsWhere<Partial<VariationEntity>>, fields?: string[]): Promise<VariationEntity[]> {
+    return this.variationRepository
+      .createQueryBuilder('variation')
+      .where(where)
+      .leftJoinAndSelect('variation.values', 'values')
+      .select(fields)
+      .getMany();
+  }
+
   async update(variationUpdate: Partial<VariationEntity>): Promise<VariationEntity> {
     if (!variationUpdate.id) {
       throw new Error('Variation ID must be provided for update.');

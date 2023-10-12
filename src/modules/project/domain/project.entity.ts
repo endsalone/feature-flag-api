@@ -33,7 +33,7 @@ export class ProjectEntity implements Project {
 
   @ManyToMany(() => AccountEntity)
   @JoinTable({
-    name: 'permissions',
+    name: 'permissions_projects',
     joinColumn: { name: 'project_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'account_id', referencedColumnName: 'id' }
   })

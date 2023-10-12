@@ -4,6 +4,7 @@ import { CreateVariationRequest } from 'modules/feature/dtos/create-variation.re
 import { UpdateVariationRequest } from 'modules/feature/dtos/update-variation.request';
 import { CreateVariation } from 'modules/feature/use-cases/create-variation';
 import { GetVariation } from 'modules/feature/use-cases/get-variation';
+import { ListVariation } from 'modules/feature/use-cases/list-variation';
 import { UpdateVariation } from 'modules/feature/use-cases/update-variation';
 
 @Controller('/projects')
@@ -11,8 +12,15 @@ export class VariationsController {
   constructor(
     private readonly createVariation: CreateVariation,
     private readonly getVariation: GetVariation,
+    private readonly listVariation: ListVariation,
     private readonly updateVariation: UpdateVariation
   ) {}
+
+  @Get('/:slug/variations')
+  @HttpCode(HttpStatus.OK)
+  async list(@Param('slug') slug: string, @Request() options: RequestOptions): Promise<unknown> {
+    return this.listVariation.execute(slug, options.user);
+  }
 
   @Post('/:slug/variations')
   @HttpCode(HttpStatus.CREATED)

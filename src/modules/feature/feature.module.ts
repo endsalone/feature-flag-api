@@ -13,11 +13,12 @@ import { CreateVariation } from 'modules/feature/use-cases/create-variation';
 import { GetFeature } from 'modules/feature/use-cases/get-feature';
 import { GetVariation } from 'modules/feature/use-cases/get-variation';
 import { ListFeature } from 'modules/feature/use-cases/list-feature';
+import { ListVariation } from 'modules/feature/use-cases/list-variation';
 import { UpdateVariation } from 'modules/feature/use-cases/update-variation';
 
 const services = [FeatureService, VariationService, VariationValueService];
 const featureUseCases = [CreateFeature, ListFeature, GetFeature];
-const variationUseCases = [CreateVariation, GetVariation, UpdateVariation];
+const variationUseCases = [CreateVariation, GetVariation, UpdateVariation, ListVariation];
 const controllers = [FeaturesController, VariationsController];
 const entities = [FeatureEntity, VariationEntity, VariationValueEntity];
 

@@ -11,11 +11,23 @@ import { ListProject } from 'modules/project/use-cases/list-project';
 import { ListProjectFeature } from 'modules/project/use-cases/list-project-feature';
 import { UpdateProject } from 'modules/project/use-cases/update-project';
 
+const entities = [AccountEntity, ProjectEntity];
+const services = [
+  ProjectService,
+  CreateProject,
+  UpdateProject,
+  DeleteProject,
+  ListProject,
+  GetProject,
+  ListProjectFeature
+];
+const controllers = [ProjectsController];
+
 @Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectEntity, AccountEntity])],
-  providers: [ProjectService, CreateProject, UpdateProject, DeleteProject, ListProject, GetProject, ListProjectFeature],
-  controllers: [ProjectsController],
+  imports: [TypeOrmModule.forFeature(entities)],
+  providers: services,
+  controllers: controllers,
   exports: [ProjectService]
 })
 export class ProjectModule {}
