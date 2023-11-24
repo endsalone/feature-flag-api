@@ -18,17 +18,3 @@ export const userAccountDemoData: AccountCreateRequest = {
   password: 'blabla',
   type: ACCOUNT_TYPE.USER
 };
-
-export const professionalAccountDemoData: AccountCreateRequest = {
-  name: 'Test',
-  email: 'test2@test.com',
-  password: 'blabla',
-  type: ACCOUNT_TYPE.PROFESSIONAL
-};
-
-export const adminAccountDemoData: AccountCreateRequest = {
-  name: 'Test Admin',
-  email: 'test3@test.com',
-  password: 'blabla',
-  type: ACCOUNT_TYPE.ADMIN
-};

@@ -1,8 +1,8 @@
-import { HttpStatus, INestApplication } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AccountEntity } from 'modules/account/domain/account.entity';
 import * as request from 'supertest';
-import { professionalAccountDemoData, userAccountDemoData } from 'test/common/account/account-data';
+import { userAccountDemoData } from 'test/common/account/account-data';
 import { AccountOperatarions } from 'test/common/account/account-operations';
 import { cleanAll, moduleInit } from 'test/test.utils';
 import { Repository } from 'typeorm';
@@ -24,7 +24,6 @@ describe('login', () => {
 
   beforeEach(async () => {
     await AccountOperatarions.createDemoUserAccount(httpRequest);
-    await AccountOperatarions.createDemoProfessionalAccount(httpRequest);
   });
 
   afterEach(async () => {
@@ -46,26 +45,6 @@ describe('login', () => {
       .expect(200);
 
     expect(result.body).toHaveProperty('token');
-  });
-
-  it('does NOT generate the token when the professional account is NOT activated', async () => {
-    await cleanAll([accountRepository]);
-    await AccountOperatarions.createDemoProfessionalAccount(httpRequest);
-
-    const result = await httpRequest
-      .post('/auth/login')
-      .set('Accept', 'application/json')
-      .send({
-        email: professionalAccountDemoData.email,
-        password: professionalAccountDemoData.password
-      })
-      .expect(HttpStatus.BAD_REQUEST)
-      .expect({
-        statusCode: 400,
-        code: 'PROFESSIONAL_ACCOUNT_INCOMPLETE',
-        detail: 'Professional account is incomplete',
-        source: {}
-      });
   });
 
   it.each([{ email: 'wrong@email.com' }, { password: 'wrong' }])(

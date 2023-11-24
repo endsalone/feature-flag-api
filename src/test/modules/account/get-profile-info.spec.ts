@@ -3,6 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { AccountEntity } from 'modules/account/domain/account.entity';
 import { ACCOUNT_STATUS, ACCOUNT_TYPE } from 'modules/account/domain/account.type';
 import * as request from 'supertest';
+import { userAccountDemoData } from 'test/common/account/account-data';
 import { AccountOperatarions } from 'test/common/account/account-operations';
 import { cleanAll, moduleInit } from 'test/test.utils';
 import { Repository } from 'typeorm';
@@ -39,7 +40,7 @@ describe('get profile info', () => {
   });
 
   it('shows the profile info when the request has the jwt token', async () => {
-    const token = await AccountOperatarions.login(httpRequest);
+    const token = await AccountOperatarions.login(httpRequest, userAccountDemoData.email, userAccountDemoData.password);
 
     const response = await httpRequest.get('/accounts/me').set('Authorization', `Bearer ${token}`).expect(200);
 
