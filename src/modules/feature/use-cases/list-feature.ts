@@ -11,12 +11,16 @@ export class ListFeature {
   constructor(private projectService: ProjectService, private featureService: FeatureService) {}
 
   async execute(projectSlug: string, account: UserOption): Promise<ListFeatureResponse> {
-    const project = await this.projectService.findOneBySlugAndAccount(`'${projectSlug}'`, account.id);
+    const project = await this.projectService.findOneBySlugAndAccountAndOrganization(
+      `'${projectSlug}'`,
+      account.id,
+      account.organization.id
+    );
     if (!project) {
       throw new ProjectDoesNotExistException();
     }
 
-    const listFeatureFromProject = await this.featureService.findByKeyAndProjectId(project.id);
+    const listFeatureFromProject = await this.featureService.findByProjectId(project.id);
     if (!listFeatureFromProject) {
       throw new Error('Feature not found');
     }

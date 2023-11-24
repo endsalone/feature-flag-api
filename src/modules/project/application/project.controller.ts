@@ -1,5 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Request,
+  UseInterceptors
+} from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
+import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
 import { CreateProjectRequest } from 'modules/project/dtos/create-project.request';
 import { CreateProjectResponse } from 'modules/project/dtos/create-project.response';
 import { ListProjectResponse } from 'modules/project/dtos/list-project.response';
@@ -11,7 +24,8 @@ import { GetProject } from 'modules/project/use-cases/get-project';
 import { ListProject } from 'modules/project/use-cases/list-project';
 import { UpdateProject } from 'modules/project/use-cases/update-project';
 
-@Controller('projects')
+@Controller('/organizations/:organizationHash/projects')
+@UseInterceptors(OrganizationInterceptor)
 export class ProjectsController {
   constructor(
     private createProjectUseCase: CreateProject,

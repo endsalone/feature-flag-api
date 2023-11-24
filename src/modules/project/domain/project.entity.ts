@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
 import { AccountEntity } from 'modules/account/domain/account.entity';
+import { OrganizationEntity } from 'modules/organization/domain/organization.entity';
 import { Permission } from 'modules/project/domain/permission';
 import { Project } from 'modules/project/domain/project';
 import {
@@ -7,8 +8,10 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -38,6 +41,14 @@ export class ProjectEntity implements Project {
     inverseJoinColumn: { name: 'account_id', referencedColumnName: 'id' }
   })
   permissions: AccountEntity[] | Permission[];
+
+  @ManyToOne(() => OrganizationEntity)
+  @JoinColumn({
+    name: 'organization_id',
+    referencedColumnName: 'id',
+    foreignKeyConstraintName: 'project_organization_id_fk'
+  })
+  organization: OrganizationEntity;
 
   @Expose()
   @CreateDateColumn({

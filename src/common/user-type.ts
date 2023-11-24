@@ -1,5 +1,8 @@
 import { Request } from 'express';
 import { ACCOUNT_STATUS, ACCOUNT_TYPE } from 'modules/account/domain/account.type';
+import { Feature } from 'modules/feature/domain/feature';
+import { OrganizationInterceptorDto } from 'modules/organization/dtos/organization.interceptor.dto';
+import { Project } from 'modules/project/domain/project';
 
 export type UserOption = {
   id: number;
@@ -7,14 +10,11 @@ export type UserOption = {
   type: ACCOUNT_TYPE;
   status: ACCOUNT_STATUS;
   active: boolean;
-};
-
-export type OrganizationOption = {
-  id: number;
-  name: string;
+  organization: Partial<OrganizationInterceptorDto>;
+  feature: Partial<Feature>;
+  project: Partial<Project>;
 };
 
 export type RequestOptions = {
   user: UserOption;
-  organization: OrganizationOption;
 } & Request;

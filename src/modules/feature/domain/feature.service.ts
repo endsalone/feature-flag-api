@@ -54,7 +54,7 @@ export class FeatureService {
       .getOne();
   }
 
-  async findByKeyAndProjectId(projectId: number): Promise<FeatureEntity[]> {
+  async findByProjectId(projectId: number): Promise<FeatureEntity[]> {
     return this.featureRepository
       .createQueryBuilder('features')
       .where('features.project_id = :projectId', { projectId })
@@ -63,13 +63,5 @@ export class FeatureService {
 
   async findById(id: number): Promise<FeatureEntity> {
     return this.findOne({ id });
-  }
-
-  async find(
-    where: FindOptionsWhere<Partial<FeatureEntity>>,
-    relations?: FindOptionsRelations<FeatureEntity> | FindOptionsRelationByString,
-    select?: FindOptionsSelect<FeatureEntity> | FindOptionsSelectByString<FeatureEntity>
-  ): Promise<FeatureEntity[]> {
-    return this.featureRepository.find({ where, relations, select });
   }
 }

@@ -40,6 +40,11 @@ export enum VariationErrorType {
   VARIATION_ID_FROM_ANOTHER = 'VARIATION_ID_FROM_ANOTHER'
 }
 
+export enum RuleErrorType {
+  RULE_ALREADY_EXISTS = 'RULE_ALREADY_EXISTS',
+  RULE_DOES_NOT_EXIST = 'RULE_DOES_NOT_EXIST'
+}
+
 export interface JsonApiError {
   statusCode?: number;
   code?: string;

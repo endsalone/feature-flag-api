@@ -23,7 +23,11 @@ export class CreateVariation {
     variation: CreateVariationRequest,
     account: UserOption
   ): Promise<CreateVariationResponse> {
-    const project = await this.projectService.findOneBySlugAndAccount(`'${slug}'`, account.id);
+    const project = await this.projectService.findOneBySlugAndAccountAndOrganization(
+      `'${slug}'`,
+      account.id,
+      account.organization.id
+    );
     if (!project) {
       throw new ProjectDoesNotExistException();
     }

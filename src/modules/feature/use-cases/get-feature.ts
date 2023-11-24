@@ -15,15 +15,20 @@ export class GetFeature {
   constructor(private projectService: ProjectService, private featureService: FeatureService) {}
 
   async execute(projectSlug: string, featureKey: string, account: UserOption): Promise<FeatureWithVariations> {
-    const project = await this.projectService.findOneBySlugAndAccount(`'${projectSlug}'`, account.id);
+    const project = await this.projectService.findOneBySlugAndAccountAndOrganization(
+      `'${projectSlug}'`,
+      account.id,
+      account.organization.id
+    );
     if (!project) {
       throw new Error('Project not found');
     }
 
-    const featureFromProject: FeatureEntity = await this.featureService.findOne({ key: featureKey, project }, null, [
-      'variations',
-      'variations.values'
-    ]);
+    const featureFromProject: FeatureEntity = await this.featureService.findOne(
+      { key: featureKey, project: { id: project.id } },
+      null,
+      ['project', 'variations', 'variations.values']
+    );
     if (!featureFromProject) {
       throw new FeatureDoesNotExistException();
     }

@@ -9,7 +9,7 @@ export class ListProject {
   constructor(private projectService: ProjectService) {}
 
   async execute(options: UserOption): Promise<ListProjectResponse> {
-    const projects = await this.projectService.findByAccountId(options.id);
+    const projects = await this.projectService.findByAccountIdAndOrganizationId(options.id, options.organization.id);
 
     return castWithObfuscation(ListProjectResponse, projects);
   }

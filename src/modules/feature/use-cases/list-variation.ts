@@ -15,7 +15,11 @@ export class ListVariation {
   ) {}
 
   async execute(projectSlug: string, account: UserOption): Promise<Partial<Variation[]>> {
-    const project = await this.projectService.findOneBySlugAndAccount(`'${projectSlug}'`, account.id);
+    const project = await this.projectService.findOneBySlugAndAccountAndOrganization(
+      `'${projectSlug}'`,
+      account.id,
+      account.organization.id
+    );
     if (!project) {
       throw new ProjectDoesNotExistException();
     }

@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Request,
+  UseInterceptors
+} from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
 import { Variation } from 'modules/feature/domain/variation';
 import { CreateVariationRequest } from 'modules/feature/dtos/create-variation.request';
@@ -9,8 +20,10 @@ import { CreateVariation } from 'modules/feature/use-cases/create-variation';
 import { GetVariation } from 'modules/feature/use-cases/get-variation';
 import { ListVariation } from 'modules/feature/use-cases/list-variation';
 import { UpdateVariation } from 'modules/feature/use-cases/update-variation';
+import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
 
-@Controller('/projects')
+@Controller('/organizations/:organizationHash/projects')
+@UseInterceptors(OrganizationInterceptor)
 export class VariationsController {
   constructor(
     private readonly createVariation: CreateVariation,

@@ -26,7 +26,11 @@ export class UpdateVariation {
     projectSlug: string,
     account?: UserOption
   ): Promise<GetVariationResponse> {
-    const project = await this.projectService.findOneBySlugAndAccount(`'${projectSlug}'`, account.id);
+    const project = await this.projectService.findOneBySlugAndAccountAndOrganization(
+      `'${projectSlug}'`,
+      account.id,
+      account.organization.id
+    );
     if (!project) {
       throw new ProjectDoesNotExistException();
     }

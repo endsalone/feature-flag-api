@@ -10,11 +10,11 @@ import { UpdateProjectResponse } from 'modules/project/dtos/update-project.respo
 export class UpdateProject {
   constructor(private projectService: ProjectService) {}
 
-  async execute(slug: string, body: UpdateProjectRequest, options: UserOption): Promise<UpdateProjectResponse> {
+  async execute(slug: string, body: UpdateProjectRequest, user: UserOption): Promise<UpdateProjectResponse> {
     const bodyWithSlug: Partial<ProjectEntity> = { ...body, slug };
     const projectEntityCasted = castWithoutObfuscation(ProjectEntity, bodyWithSlug);
 
-    const projectUpdated = await this.projectService.updateProject(projectEntityCasted, options.id);
+    const projectUpdated = await this.projectService.updateProject(projectEntityCasted, user.id, user.organization.id);
 
     return castWithObfuscation(UpdateProjectResponse, projectUpdated);
   }

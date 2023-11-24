@@ -11,7 +11,11 @@ export class CreateProject {
   constructor(private projectService: ProjectService) {}
 
   async execute(body: CreateProjectRequest, options?: UserOption): Promise<CreateProjectResponse> {
-    const projectEntityCasted = castWithoutObfuscation(ProjectEntity, body);
+    const projectEntityToBeCasted = {
+      ...body,
+      organization: options.organization
+    };
+    const projectEntityCasted = castWithoutObfuscation(ProjectEntity, projectEntityToBeCasted);
     const project = await this.projectService.createProject(projectEntityCasted, options.id);
 
     return castWithObfuscation(CreateProjectResponse, project);

@@ -31,30 +31,15 @@ export class OrganizationService {
     return this.organizationRepository.save(oraganizationWithSlug);
   }
 
-  async updateOrganization(
-    organization: Partial<OrganizationEntity>,
-    accountId: number
-  ): Promise<Partial<OrganizationEntity>> {
-    const hasOrganization = await this.findOneBySlugAndAccount(`'${organization.key}'`, accountId);
-    if (!hasOrganization) {
-      throw new OrganizationAlreadyExistsException();
-    }
-
-    const firstOrganization = {
-      ...hasOrganization,
-      ...organization
-    };
-
-    await this.organizationRepository.save(firstOrganization);
-
-    return firstOrganization;
+  async updateOrganization(organization: Partial<OrganizationEntity>): Promise<Partial<OrganizationEntity>> {
+    return this.organizationRepository.save(organization);
   }
 
   async findOneBySlugAndAccount(key: string, accountId: number): Promise<OrganizationEntity> {
     const query = this.organizationRepository
       .createQueryBuilder('organization')
-      .leftJoinAndSelect('organization.permissions', 'permissions')
-      .where(`organization.key = ${key}`)
+      .innerJoinAndSelect('organization.permissions', 'permissions')
+      .where(`organization.key IN (${key})`)
       .andWhere(`permissions.id = ${accountId}`);
 
     return query.getOne();
@@ -65,10 +50,12 @@ export class OrganizationService {
     return query.getMany();
   }
 
-  async findOneByHashAndAccount(hash: string, accountId: number): Promise<OrganizationEntity> {
-    const query = await this.getOrganizationQuery(accountId);
-    query.andWhere(`organization.hash = '${hash}'`);
+  async findOneById(id: number): Promise<OrganizationEntity> {
+    return this.organizationRepository.findOneOrFail({ where: { id } });
+  }
 
+  async findOneByHashAndAccount(organizationHash: string, accountId: number): Promise<OrganizationEntity> {
+    const query = await this.getOrganizationQuery(accountId, organizationHash);
     return query.getOne();
   }
 
@@ -83,11 +70,19 @@ export class OrganizationService {
     return hash;
   }
 
-  private async getOrganizationQuery(accountId: number): Promise<SelectQueryBuilder<OrganizationEntity>> {
+  private async getOrganizationQuery(
+    accountId: number,
+    organizationHash?: string
+  ): Promise<SelectQueryBuilder<OrganizationEntity>> {
+    const whereClause = organizationHash
+      ? `organization.hash = '${organizationHash}'`
+      : `permissions.id = ${accountId}`;
+
     return this.organizationRepository
       .createQueryBuilder('organization')
       .leftJoinAndSelect('organization.permissions', 'permissions')
-      .where(`permissions.id = ${accountId}`)
+      .where(whereClause)
+      .leftJoinAndSelect('organization.environments', 'environments')
       .orderBy('organization.name', 'ASC');
   }
 }

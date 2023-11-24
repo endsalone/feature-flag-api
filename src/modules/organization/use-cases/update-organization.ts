@@ -16,12 +16,20 @@ export class UpdateOrganization {
     body: CreateOrganizationRequest,
     options?: UserOption
   ): Promise<CreateOrganizationResponse> {
-    const hasOrganizationWithHash = await this.organizationService.findOneByHashAndAccount(hash, options.id);
-    if (!hasOrganizationWithHash) {
+    const organizationWithHash = await this.organizationService.findOneByHashAndAccount(
+      options.organization.hash,
+      options.id
+    );
+    if (!organizationWithHash) {
       throw new OrganizationInternalServerErrorException();
     }
-    const organizationEntityCasted = castWithoutObfuscation(OrganizationEntity, body);
-    const organization = await this.organizationService.updateOrganization(organizationEntityCasted, options.id);
+
+    const organizationData = {
+      ...organizationWithHash,
+      ...body
+    };
+    const organizationEntityCasted = castWithoutObfuscation(OrganizationEntity, organizationData);
+    const organization = await this.organizationService.updateOrganization(organizationEntityCasted);
 
     return castWithObfuscation(CreateOrganizationResponse, organization);
   }

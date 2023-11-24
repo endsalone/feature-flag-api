@@ -18,7 +18,11 @@ export class ProjectService {
   async createProject(project: ProjectEntity, accountId: number): Promise<ProjectEntity> {
     const slug = slugify(project.name);
 
-    const hasProject = await this.findOneBySlugAndAccount(`'${slug}'`, accountId);
+    const hasProject = await this.findOneBySlugAndAccountAndOrganization(
+      `'${slug}'`,
+      accountId,
+      project.organization.id
+    );
     if (hasProject) {
       throw new ProjectAlreadyExistsException();
     }
@@ -33,11 +37,19 @@ export class ProjectService {
     return projectSaved;
   }
 
-  async updateProject(project: Partial<ProjectEntity>, accountId: number): Promise<Partial<ProjectEntity>> {
+  async updateProject(
+    project: Partial<ProjectEntity>,
+    accountId: number,
+    organizationId: number
+  ): Promise<Partial<ProjectEntity>> {
     const newSlug = slugify(project.name);
     const formatedSlug = `'${newSlug}', '${project.slug}'`;
 
-    const existingProjectList: ProjectEntity[] = await this.findBySlugsAndAccount(formatedSlug, accountId);
+    const existingProjectList: ProjectEntity[] = await this.findBySlugAndAccountAndOrganization(
+      formatedSlug,
+      accountId,
+      organizationId
+    );
     if (!existingProjectList.length) {
       throw new ProjectDoesNotExistException();
     }
@@ -61,45 +73,58 @@ export class ProjectService {
     return this.projectsRepository.findOne({ where });
   }
 
-  async findBySlugsAndAccount(slug: string, accountId: number): Promise<ProjectEntity[]> {
-    return this.projectsRepository.query(`
-      SELECT
-        "projects"."id" AS "id",
-        "projects"."name" AS "name",
-        "projects"."slug" AS "slug",
-        "projects"."description" AS "description"
-      FROM "projects"
-        INNER JOIN "permissions_projects" ON
-          "permissions_projects"."project_id"="projects"."id" AND
-          "permissions_projects".account_id=${accountId}
-        WHERE
-          "projects"."slug" IN (${slug}) AND
-          "projects"."deleted_at" IS NULL;
-    `);
+  async findBySlugAndAccountAndOrganization(
+    slug: string,
+    accountId: number,
+    organizationId: number
+  ): Promise<ProjectEntity[]> {
+    return this.projectsRepository
+      .createQueryBuilder('projects')
+      .where(`projects.slug IN (${slug})`)
+      .andWhere('projects.organization_id = :organizationId', { organizationId })
+      .innerJoinAndSelect('projects.permissions', 'permissions_projects')
+      .andWhere('permissions_projects.id = :accountId', { accountId })
+      .getMany();
   }
 
-  async findOneBySlugAndAccount(slug: string, accountId: number): Promise<ProjectEntity> {
-    const projectList: Promise<ProjectEntity[]> = await this.projectsRepository.query(`
-      SELECT
-        "projects"."id" AS "id",
-        "projects"."name" AS "name",
-        "projects"."slug" AS "slug",
-        "projects"."description" AS "description"
-      FROM "projects"
-        INNER JOIN "permissions_projects" ON
-          "permissions_projects"."project_id"="projects"."id" AND
-          "permissions_projects".account_id=${accountId}
-        WHERE
-          "projects"."slug" = ${slug} AND
-          "projects"."deleted_at" IS NULL
-        LIMIT 1;
-    `);
-
-    return projectList[0];
+  async findOneBySlugAndAccountAndOrganization(
+    slug: string,
+    accountId: number,
+    organizationId: number
+  ): Promise<ProjectEntity> {
+    return this.projectsRepository
+      .createQueryBuilder('projects')
+      .where(`projects.slug IN (${slug})`)
+      .andWhere('projects.organization_id = :organizationId', { organizationId })
+      .innerJoinAndSelect('projects.permissions', 'permissions_projects')
+      .andWhere('permissions_projects.id = :accountId', { accountId })
+      .getOne();
   }
 
   async find(where: FindOptionsWhere<Partial<ProjectEntity>>): Promise<ProjectEntity[]> {
     return this.projectsRepository.find({ where });
+  }
+
+  async findByAccountIdAndOrganizationId(accountId: number, organizationId: number): Promise<ProjectEntity[]> {
+    return this.projectsRepository
+      .createQueryBuilder('projects')
+      .select(['projects.id', 'projects.name', 'projects.slug', 'projects.description'])
+      .innerJoinAndSelect('projects.permissions', 'permissions_projects')
+      .innerJoinAndSelect('projects.organization', 'project_organization')
+      .andWhere('permissions_projects.id = :accountId', { accountId })
+      .andWhere('project_organization.id = :organizationId', { organizationId })
+      .getMany();
+  }
+
+  async findOneByAccountIdAndOrganizationId(accountId: number, organizationId: number): Promise<ProjectEntity> {
+    return this.projectsRepository
+      .createQueryBuilder('projects')
+      .select(['projects.id', 'projects.name', 'projects.slug', 'projects.description'])
+      .innerJoinAndSelect('projects.permissions', 'permissions_projects')
+      .innerJoinAndSelect('projects.organization', 'project_organization')
+      .andWhere('permissions_projects.id = :accountId', { accountId })
+      .andWhere('project_organization.id = :organizationId', { organizationId })
+      .getOne();
   }
 
   async findByAccountId(accountId: number): Promise<ProjectEntity[]> {
