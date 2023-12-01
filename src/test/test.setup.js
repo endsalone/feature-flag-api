@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const Docker = require('dockerode');
 
 process.env.DATABASE_HOST = '127.0.0.1';
@@ -75,9 +77,14 @@ const deleteTestDb = async () => {
 
 const dockerInit = async () => {
   try {
+    const isDockerRunning = await docker.ping();
+    if (!isDockerRunning) {
+      console.log('Docker not available, please start it to continue');
+      process.exit(0);
+    }
+
     const CONTAINER_PORT = process.env.DATABASE_PORT;
     const CONTAINER_NAME = 'test_resusable_db';
-    let containerInfo;
 
     const createContainer = () =>
       docker.createContainer({
@@ -98,7 +105,7 @@ const dockerInit = async () => {
         name: CONTAINER_NAME
       });
 
-    const container = await docker.listContainers({ filters: { name: [CONTAINER_NAME] } });
+    const container = await docker.listContainers({ all: true, filters: { name: [CONTAINER_NAME] } });
 
     if (container.length === 0) {
       console.log('Creating DB container ...');
@@ -114,7 +121,15 @@ const dockerInit = async () => {
       return info.State.Status;
     };
 
-    while ((await containerStatus()) !== 'running') {
+    const status = await containerStatus();
+
+    if (status === 'exited') {
+      console.log('DB container is exited, starting ...');
+      await docker.getContainer(CONTAINER_NAME).start();
+      console.log('DB container started');
+    }
+
+    while (status !== 'running') {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
@@ -125,4 +140,4 @@ const dockerInit = async () => {
   }
 };
 
-dockerInit()
+dockerInit();

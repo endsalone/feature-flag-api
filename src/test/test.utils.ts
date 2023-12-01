@@ -5,7 +5,7 @@ import { ExcpetionsInterceptor } from 'application/exception';
 import { ValidationPipe } from 'application/validation';
 import { Repository } from 'typeorm';
 
-export async function cleanAll<unkown>(entities: Repository<unknown>[]) {
+export async function cleanAll(entities: Repository<unknown>[]) {
   for (const entity of entities) {
     const tableName = entity.metadata.tableName;
     await entity.manager.query(`TRUNCATE ${tableName} RESTART IDENTITY CASCADE;`);
@@ -15,7 +15,7 @@ export async function cleanAll<unkown>(entities: Repository<unknown>[]) {
 export async function moduleInit(module?: TestingModule): Promise<INestApplication> {
   if (!module) {
     module = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule]
     }).compile();
   }
 
