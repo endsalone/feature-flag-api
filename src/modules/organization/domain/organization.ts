@@ -8,6 +8,8 @@ export interface Organization {
   environments: Environment[];
   permissions: Account[];
   hash: string;
+  apiId: string;
+  apiSecret: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;

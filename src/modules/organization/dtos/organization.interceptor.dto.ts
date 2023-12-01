@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
-import { EnvironmentResponse } from './environment.response';
+import { Secret } from 'modules/organization/domain/secret';
+import { EnvironmentResponse } from 'modules/organization/dtos/environment.response';
 
 export class OrganizationInterceptorDto {
   @Expose()
@@ -12,4 +13,6 @@ export class OrganizationInterceptorDto {
   hash: string;
   @Expose()
   environments: EnvironmentResponse[];
+  @Expose()
+  secret: Partial<Secret>;
 }

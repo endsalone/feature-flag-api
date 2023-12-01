@@ -1,6 +1,16 @@
 import { Expose } from 'class-transformer';
 import { Environment } from 'modules/organization/domain/environment';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
+import { SecretEntity } from './secret.entity';
 
 @Entity('environments')
 export class EnvironmentEntity implements Environment {
@@ -15,6 +25,10 @@ export class EnvironmentEntity implements Environment {
   @Expose()
   @Column({ type: 'character varying', length: 120, nullable: false })
   key: string;
+
+  @OneToOne(() => SecretEntity)
+  @JoinColumn({ name: 'secret_id', referencedColumnName: 'id' })
+  secret: SecretEntity;
 
   @Expose()
   @CreateDateColumn({

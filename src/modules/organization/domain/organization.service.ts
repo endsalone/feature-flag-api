@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Hash } from 'common/hash';
 import { AccountEntity } from 'modules/account/domain/account.entity';
+import { EnvironmentService } from 'modules/organization/domain/environment.service';
 import { OrganizationAlreadyExistsException } from 'modules/organization/domain/exception/organization-exists';
 import { OrganizationEntity } from 'modules/organization/domain/organization.entity';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { EnvironmentService } from './environment.service';
-
 @Injectable()
 export class OrganizationService {
   constructor(
@@ -26,8 +26,16 @@ export class OrganizationService {
     account.id = accountId;
 
     const hash = await this.generateHash(organization.key);
-
-    const oraganizationWithSlug: OrganizationEntity = { ...organization, hash, permissions: [account], environments };
+    const apiId = Hash.generateRandomHash(16);
+    const apiSecret = Hash.generateRandomHash(24);
+    const oraganizationWithSlug: OrganizationEntity = {
+      ...organization,
+      hash,
+      apiId,
+      apiSecret,
+      permissions: [account],
+      environments
+    };
     return this.organizationRepository.save(oraganizationWithSlug);
   }
 
@@ -83,6 +91,7 @@ export class OrganizationService {
       .leftJoinAndSelect('organization.permissions', 'permissions')
       .where(whereClause)
       .leftJoinAndSelect('organization.environments', 'environments')
+      .leftJoinAndSelect('environments.secret', 'secret')
       .orderBy('organization.name', 'ASC');
   }
 }

@@ -33,6 +33,14 @@ export class OrganizationEntity implements Organization {
   @Column({ type: 'character varying', length: 200, nullable: true })
   hash: string;
 
+  @Expose()
+  @Column({ name: 'api_id', type: 'character varying', length: 200, nullable: true })
+  apiId: string;
+
+  @Expose()
+  @Column({ name: 'api_secret', type: 'character varying', length: 200, nullable: true })
+  apiSecret: string;
+
   @ManyToMany(() => EnvironmentEntity)
   @JoinTable({
     name: 'organization_environments',
