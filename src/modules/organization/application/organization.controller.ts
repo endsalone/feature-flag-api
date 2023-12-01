@@ -11,9 +11,10 @@ import {
   UseInterceptors
 } from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
-import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
+import { OrganizationInterceptor } from 'modules/organization/application/organization.interceptor';
 import { CreateOrganizationRequest } from 'modules/organization/dtos/create-organization.request';
 import { CreateOrganizationResponse } from 'modules/organization/dtos/create-organization.response';
+import { GetOrganizationResponse } from 'modules/organization/dtos/get-organization.response';
 import { CreateOrganization } from 'modules/organization/use-cases/create-organization';
 import { GetOrganization } from 'modules/organization/use-cases/get-organization';
 import { ListOrganization } from 'modules/organization/use-cases/list-organization';
@@ -47,7 +48,7 @@ export class OrganizationController {
   async getOrganization(
     @Param('organizationHash') hash: string,
     @Request() options: RequestOptions
-  ): Promise<CreateOrganizationResponse> {
+  ): Promise<GetOrganizationResponse> {
     return this.getOrganizationUseCase.execute(hash, options.user);
   }
 

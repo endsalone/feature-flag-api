@@ -12,7 +12,7 @@ import {
   UseInterceptors
 } from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
-import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
+import { OrganizationInterceptor } from 'modules/organization/application/organization.interceptor';
 import { CreateProjectRequest } from 'modules/project/dtos/create-project.request';
 import { CreateProjectResponse } from 'modules/project/dtos/create-project.response';
 import { ListProjectResponse } from 'modules/project/dtos/list-project.response';

@@ -6,7 +6,7 @@ import { ListFeatureResponse } from 'modules/feature/dtos/list-feature.response'
 import { CreateFeature } from 'modules/feature/use-cases/create-feature';
 import { GetFeature } from 'modules/feature/use-cases/get-feature';
 import { ListFeature } from 'modules/feature/use-cases/list-feature';
-import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
+import { OrganizationInterceptor } from 'modules/organization/application/organization.interceptor';
 
 @Controller('/organizations/:organizationHash/projects/:slug')
 @UseInterceptors(OrganizationInterceptor)

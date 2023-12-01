@@ -5,7 +5,7 @@ import { UpdateRuleRequest } from 'modules/feature/dtos/update-rule.request';
 import { GetRule } from 'modules/feature/use-cases/get-rule';
 import { ListRule } from 'modules/feature/use-cases/list-rule';
 import { UpdateRule } from 'modules/feature/use-cases/update-rule';
-import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
+import { OrganizationInterceptor } from 'modules/organization/application/organization.interceptor';
 import { ProjectInterceptor } from 'modules/project/application/project.interceptor';
 
 @Controller('/organizations/:organizationHash/projects/:projectSlug')

@@ -20,7 +20,7 @@ import { CreateVariation } from 'modules/feature/use-cases/create-variation';
 import { GetVariation } from 'modules/feature/use-cases/get-variation';
 import { ListVariation } from 'modules/feature/use-cases/list-variation';
 import { UpdateVariation } from 'modules/feature/use-cases/update-variation';
-import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
+import { OrganizationInterceptor } from 'modules/organization/application/organization.interceptor';
 
 @Controller('/organizations/:organizationHash/projects')
 @UseInterceptors(OrganizationInterceptor)

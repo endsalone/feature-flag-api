@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus, Request, UseInterceptors } from '@nestjs/common';
 import { RequestOptions } from 'common/user-type';
-import { OrganizationInterceptor } from 'modules/organization/application/orgianization.interceptor';
+import { OrganizationInterceptor } from 'modules/organization/application/organization.interceptor';
 import { EnvironmentResponse } from 'modules/organization/dtos/environment.response';
 import { GetEnvironment } from 'modules/organization/use-cases/get-environment';
 
