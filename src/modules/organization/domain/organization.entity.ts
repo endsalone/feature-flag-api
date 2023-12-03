@@ -1,8 +1,6 @@
 import { Expose } from 'class-transformer';
 import { Account } from 'modules/account/domain/account';
 import { AccountEntity } from 'modules/account/domain/account.entity';
-import { Environment } from 'modules/organization/domain/environment';
-import { EnvironmentEntity } from 'modules/organization/domain/environment.entity';
 import { Organization } from 'modules/organization/domain/organization';
 import {
   Column,
@@ -40,14 +38,6 @@ export class OrganizationEntity implements Organization {
   @Expose()
   @Column({ name: 'api_secret', type: 'character varying', length: 200, nullable: true })
   apiSecret: string;
-
-  @ManyToMany(() => EnvironmentEntity)
-  @JoinTable({
-    name: 'organization_environments',
-    joinColumn: { name: 'organization_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'environment_id', referencedColumnName: 'id' }
-  })
-  environments: Environment[];
 
   @ManyToMany(() => AccountEntity)
   @JoinTable({

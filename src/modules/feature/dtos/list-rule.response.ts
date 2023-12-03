@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { Rule } from 'modules/feature/domain/rule';
 import { Target } from 'modules/feature/domain/target';
-import { Environment } from 'modules/organization/domain/environment';
+import { Environment } from 'modules/project/domain/environment';
 
 export class RuleResponse implements Partial<Rule> {
   @Expose()

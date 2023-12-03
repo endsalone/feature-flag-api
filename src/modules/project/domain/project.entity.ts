@@ -1,7 +1,10 @@
 import { Expose } from 'class-transformer';
 import { AccountEntity } from 'modules/account/domain/account.entity';
 import { OrganizationEntity } from 'modules/organization/domain/organization.entity';
+import { Environment } from 'modules/project/domain/environment';
+import { EnvironmentEntity } from 'modules/project/domain/environment.entity';
 import { Permission } from 'modules/project/domain/permission';
+
 import { Project } from 'modules/project/domain/project';
 import {
   Column,
@@ -49,6 +52,14 @@ export class ProjectEntity implements Project {
     foreignKeyConstraintName: 'project_organization_id_fk'
   })
   organization: OrganizationEntity;
+
+  @ManyToMany(() => EnvironmentEntity)
+  @JoinTable({
+    name: 'project_environments',
+    joinColumn: { name: 'project_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'environment_id', referencedColumnName: 'id' }
+  })
+  environments: Environment[];
 
   @Expose()
   @CreateDateColumn({

@@ -4,7 +4,7 @@ export class CreateProjectResponse {
   @Expose()
   name: string;
   @Expose()
-  description: string;
+  slug: string;
   @Expose()
-  createdAt: string;
+  description: string;
 }

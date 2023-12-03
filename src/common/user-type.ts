@@ -11,8 +11,8 @@ export type UserOption = {
   status: ACCOUNT_STATUS;
   active: boolean;
   organization: Partial<OrganizationInterceptorDto>;
-  feature: Partial<Feature>;
-  project: Partial<Project>;
+  feature: Feature;
+  project: Project;
 };
 
 export type RequestOptions = {

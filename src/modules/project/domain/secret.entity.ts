@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Secret } from 'modules/organization/domain/secret';
+import { Secret } from 'modules/project/domain/secret';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('secrets')

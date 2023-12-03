@@ -98,6 +98,8 @@ export class ProjectService {
       .andWhere('projects.organization_id = :organizationId', { organizationId })
       .innerJoinAndSelect('projects.permissions', 'permissions_projects')
       .andWhere('permissions_projects.id = :accountId', { accountId })
+      .innerJoinAndSelect('projects.environments', 'environments')
+      .innerJoinAndSelect('environments.secret', 'secrets')
       .getOne();
   }
 

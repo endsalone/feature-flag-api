@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Hash } from 'common/hash';
-import { EnvironmentEntity } from 'modules/organization/domain/environment.entity';
 import { DefaultEnvironment } from 'modules/organization/domain/environment.type';
+import { EnvironmentEntity } from 'modules/project/domain/environment.entity';
+import { SecretEntity } from 'modules/project/domain/secret.entity';
 import { Repository } from 'typeorm';
-import { SecretEntity } from './secret.entity';
 
 @Injectable()
 export class EnvironmentService {

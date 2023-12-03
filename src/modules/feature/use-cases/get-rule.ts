@@ -5,11 +5,11 @@ import { Rule } from 'modules/feature/domain/rule';
 import { RuleService } from 'modules/feature/domain/rule.service';
 import { Target } from 'modules/feature/domain/target';
 import { VariationValue } from 'modules/feature/domain/variation-value';
-import { EnvironmentResponse } from 'modules/feature/dtos/environment.response';
+import { EnvironmentWithSecretResponse } from 'modules/feature/dtos/environment.response';
 import { RuleResponse } from 'modules/feature/dtos/list-rule.response';
 import { ListTargetResponse } from 'modules/feature/dtos/list-target.response';
 import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
-import { Environment } from 'modules/organization/domain/environment';
+import { Environment } from 'modules/project/domain/environment';
 import { ProjectService } from 'modules/project/domain/project.service';
 
 @Injectable()
@@ -35,8 +35,8 @@ export class GetRule {
     };
   }
 
-  private buildEnvironment(environment: Environment): EnvironmentResponse {
-    return castWithObfuscation(EnvironmentResponse, environment);
+  private buildEnvironment(environment: Environment): EnvironmentWithSecretResponse {
+    return castWithObfuscation(EnvironmentWithSecretResponse, environment);
   }
 
   private buildTargets(targets: Target[]): ListTargetResponse[] {

@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Environment } from 'modules/organization/domain/environment';
+import { Environment } from 'modules/project/domain/environment';
 import {
   Column,
   CreateDateColumn,

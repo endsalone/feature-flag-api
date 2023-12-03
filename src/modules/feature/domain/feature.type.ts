@@ -1,4 +1,5 @@
 import { Variation } from 'modules/feature/domain/variation';
+import { Environment } from 'modules/project/domain/environment';
 
 export enum FeatureType {
   RELEASE = 'release',
@@ -10,4 +11,5 @@ export interface FeatureWithVariations {
   description: string;
   type: FeatureType;
   variations: Partial<Variation>[];
+  environments?: Environment[];
 }

@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
-import { Environment } from 'modules/organization/domain/environment';
 import { Organization } from 'modules/organization/domain/organization';
+import { Environment } from 'modules/project/domain/environment';
 
 export class GetOrganizationResponse implements Partial<Organization> {
   @Expose()

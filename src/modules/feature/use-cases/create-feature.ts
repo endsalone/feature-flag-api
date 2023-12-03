@@ -16,9 +16,8 @@ import { CreateFeatureRequest } from 'modules/feature/dtos/create-feature.reques
 import { CreateFeatureResponse } from 'modules/feature/dtos/create-feature.response';
 import { CreateVariationResponse } from 'modules/feature/dtos/create-variation.response';
 import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
-import { Environment } from 'modules/organization/domain/environment';
 import { DefaultEnvironment } from 'modules/organization/domain/environment.type';
-import { ProjectDoesNotExistException } from 'modules/project/domain/exception/project-not-exists';
+import { Environment } from 'modules/project/domain/environment';
 import { ProjectEntity } from 'modules/project/domain/project.entity';
 import { ProjectService } from 'modules/project/domain/project.service';
 
@@ -32,14 +31,7 @@ export class CreateFeature {
   ) {}
 
   async execute(slug: string, feature: CreateFeatureRequest, account: UserOption): Promise<FeatureWithVariations> {
-    const project: ProjectEntity = await this.projectService.findOneBySlugAndAccountAndOrganization(
-      `'${slug}'`,
-      account.id,
-      account.organization.id
-    );
-    if (!project) {
-      throw new ProjectDoesNotExistException();
-    }
+    const project: ProjectEntity = account.project;
 
     const hasFeature = await this.featureService.findOne({ key: feature.key });
     if (hasFeature) {
@@ -74,7 +66,7 @@ export class CreateFeature {
   }
 
   private buildDefaultRules(account: UserOption, variation: Variation, feature: Feature): Partial<Rule>[] {
-    const environments: Environment[] = account.organization.environments;
+    const environments: Environment[] = account.project.environments;
     const defaultRulesByEnvironment: Omit<Rule, 'id'>[] = [];
 
     for (const environment of environments) {

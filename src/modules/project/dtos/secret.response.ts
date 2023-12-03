@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { Secret } from 'modules/project/domain/secret';
 
-export class GetSecretResponse implements Partial<Secret> {
+export class SecretResponse implements Partial<Secret> {
   @Expose()
   server: string;
   @Expose()

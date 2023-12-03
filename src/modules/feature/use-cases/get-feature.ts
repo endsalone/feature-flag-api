@@ -9,31 +9,30 @@ import { CreateFeatureResponse } from 'modules/feature/dtos/create-feature.respo
 import { CreateVariationResponse } from 'modules/feature/dtos/create-variation.response';
 import { VariationValueResponse } from 'modules/feature/dtos/variation-value.response';
 import { ProjectService } from 'modules/project/domain/project.service';
+import { EnvironmentResponse } from 'modules/project/dtos/environment.response';
 
 @Injectable()
 export class GetFeature {
   constructor(private projectService: ProjectService, private featureService: FeatureService) {}
 
   async execute(projectSlug: string, featureKey: string, account: UserOption): Promise<FeatureWithVariations> {
-    const project = await this.projectService.findOneBySlugAndAccountAndOrganization(
-      `'${projectSlug}'`,
-      account.id,
-      account.organization.id
-    );
-    if (!project) {
-      throw new Error('Project not found');
-    }
+    const project = account.project;
 
     const featureFromProject: FeatureEntity = await this.featureService.findOne(
       { key: featureKey, project: { id: project.id } },
       null,
-      ['project', 'variations', 'variations.values']
+      ['variations', 'variations.values']
     );
     if (!featureFromProject) {
       throw new FeatureDoesNotExistException();
     }
 
-    return this.formatFeature(featureFromProject);
+    const environments = project.environments.map((env) => ({
+      ...castWithObfuscation(EnvironmentResponse, env)
+    }));
+    const featureFromProjectWithProject = { ...featureFromProject, environments };
+
+    return this.formatFeature(featureFromProjectWithProject);
   }
 
   private formatFeature(feature: FeatureEntity): FeatureWithVariations {

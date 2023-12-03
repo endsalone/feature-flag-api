@@ -1,4 +1,4 @@
-import { Secret } from 'modules/organization/domain/secret';
+import { Secret } from 'modules/project/domain/secret';
 
 export interface Environment {
   id: number;

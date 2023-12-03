@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Hash } from 'common/hash';
 import { AccountEntity } from 'modules/account/domain/account.entity';
-import { EnvironmentService } from 'modules/organization/domain/environment.service';
 import { OrganizationAlreadyExistsException } from 'modules/organization/domain/exception/organization-exists';
 import { OrganizationEntity } from 'modules/organization/domain/organization.entity';
 import { Repository, SelectQueryBuilder } from 'typeorm';
@@ -10,8 +9,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 export class OrganizationService {
   constructor(
     @InjectRepository(OrganizationEntity)
-    private readonly organizationRepository: Repository<OrganizationEntity>,
-    private readonly environmentService: EnvironmentService
+    private readonly organizationRepository: Repository<OrganizationEntity>
   ) {}
 
   async createOrganization(organization: OrganizationEntity, accountId: number): Promise<OrganizationEntity> {
@@ -19,8 +17,6 @@ export class OrganizationService {
     if (hasOriganization) {
       throw new OrganizationAlreadyExistsException();
     }
-
-    const environments = await this.environmentService.createDefault();
 
     const account = new AccountEntity();
     account.id = accountId;
@@ -33,8 +29,7 @@ export class OrganizationService {
       hash,
       apiId,
       apiSecret,
-      permissions: [account],
-      environments
+      permissions: [account]
     };
     return this.organizationRepository.save(oraganizationWithSlug);
   }
@@ -90,8 +85,6 @@ export class OrganizationService {
       .createQueryBuilder('organization')
       .leftJoinAndSelect('organization.permissions', 'permissions')
       .where(whereClause)
-      .leftJoinAndSelect('organization.environments', 'environments')
-      .leftJoinAndSelect('environments.secret', 'secret')
       .orderBy('organization.name', 'ASC');
   }
 }
