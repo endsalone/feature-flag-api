@@ -37,7 +37,7 @@ export class TargetEntity implements Target {
   definitionComparator: ComparatorEnum | null;
 
   @Expose()
-  @Column({ type: 'character varying', length: 255, nullable: true, array: true })
+  @Column({ name: 'definition_value', type: 'character varying', length: 255, nullable: true, array: true })
   definitionValue: string[] | null;
 
   @Expose()

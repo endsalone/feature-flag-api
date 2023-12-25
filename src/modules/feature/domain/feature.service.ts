@@ -27,8 +27,8 @@ export class FeatureService {
     return this.featureRepository.save(feature);
   }
 
-  async updateAccount(feature: Partial<FeatureEntity>, id: number): Promise<void> {
-    await this.featureRepository.update(id, feature);
+  async updateFeature(feature: Partial<FeatureEntity>): Promise<void> {
+    await this.featureRepository.save(feature);
   }
 
   async findOne(
